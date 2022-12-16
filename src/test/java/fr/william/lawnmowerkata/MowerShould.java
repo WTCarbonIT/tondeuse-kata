@@ -75,4 +75,20 @@ class MowerShould {
         Mower expectedMower = new Mower(new Position(1, 1), outputOrientation, Collections.emptyList());
         assertEquals(expectedMower, resultMower);
     }
+
+    @ParameterizedTest
+    @CsvSource({"NORTH, EAST", "EAST, SOUTH", "SOUTH, WEST", "WEST, NORTH"})
+    void turn_right(CardinalPoint inputOrientation, CardinalPoint outputOrientation) {
+        Mower mower = new Mower(new Position(1, 1), inputOrientation, List.of(Movement.RIGHT));
+
+        Mower resultMower = mower.act(
+                new Position(1, 1),
+                inputOrientation,
+                List.of(Movement.RIGHT),
+                new Dimension(5, 5)
+        );
+
+        Mower expectedMower = new Mower(new Position(1, 1), outputOrientation, Collections.emptyList());
+        assertEquals(expectedMower, resultMower);
+    }
 }
