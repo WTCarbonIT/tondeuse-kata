@@ -25,4 +25,23 @@ public class Lawn {
     public int hashCode() {
         return Objects.hash(dimension, mowers);
     }
+
+    public List<MowingResult> mow() {
+        for (int i = 0; i < mowers.size(); i++) {
+            Mower currentMower = mowers.get(i);
+            while (!currentMower.movements().isEmpty()) {
+                currentMower = currentMower.act(
+                        currentMower.position(),
+                        currentMower.orientation(),
+                        currentMower.movements(),
+                        dimension
+                );
+            }
+            mowers.set(i, currentMower);
+        }
+
+        return mowers.stream()
+                .map(mower -> new MowingResult(mower.position(), mower.orientation()))
+                .toList();
+    }
 }
