@@ -18,7 +18,13 @@ public record Mower(Position position, CardinalPoint orientation, List<Movement>
                     orientation,
                     movements.subList(1, movementsLeft)
             );
-            case LEFT, RIGHT -> new Mower(
+
+            case LEFT -> new Mower(
+                    position,
+                    turnLeft(orientation),
+                    movements.subList(1, movementsLeft)
+            );
+            case RIGHT -> new Mower(
                     position,
                     orientation,
                     movements.subList(1, movementsLeft)
@@ -37,6 +43,15 @@ public record Mower(Position position, CardinalPoint orientation, List<Movement>
             case EAST -> new Position(position.x() + 1, position.y());
             case SOUTH -> new Position(position.x(), position.y() - 1);
             case WEST -> new Position(position.x() - 1, position.y());
+        };
+    }
+
+    private CardinalPoint turnLeft(CardinalPoint orientation) {
+        return switch (orientation) {
+            case EAST -> CardinalPoint.NORTH;
+            case NORTH -> CardinalPoint.WEST;
+            case WEST -> CardinalPoint.SOUTH;
+            case SOUTH -> CardinalPoint.EAST;
         };
     }
 }
